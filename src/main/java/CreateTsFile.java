@@ -2,7 +2,7 @@ import cn.edu.thu.tsfile.common.utils.RandomAccessOutputStream;
 import cn.edu.thu.tsfile.common.utils.TSRandomAccessFileWriter;
 import cn.edu.thu.tsfile.file.metadata.enums.TSDataType;
 import cn.edu.thu.tsfile.file.metadata.enums.TSEncoding;
-import cn.edu.thu.tsfile.timeseries.FileFormat.TsFile;
+import cn.edu.thu.tsfile.timeseries.basis.TsFile;
 import cn.edu.thu.tsfile.timeseries.write.exception.WriteProcessException;
 import cn.edu.thu.tsfile.timeseries.write.schema.FileSchema;
 import cn.edu.thu.tsfile.timeseries.write.schema.SchemaBuilder;
@@ -36,6 +36,7 @@ public class CreateTsFile {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(srcFile));
             String line;
+            int i = 0;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] items = line.split(",");
                 String newLine = items[1] + "," + items[0] +
@@ -45,8 +46,21 @@ public class CreateTsFile {
                         ",px," + items[6] +
                         ",py," + items[7] +
                         ",status," + items[8];
+//                if(i< 10) {
+//                    i ++;
+//                    System.out.println(newLine);
+//                    tsFile.writeLine(newLine);
+//                }
+//                if(items[8].equals("0")) {
+//                    System.out.println(newLine);
+//                    tsFile.writeLine(newLine);
+//                }
+                if(items[8].equals("0"))
+                    i++;
+                System.out.println(newLine);
                 tsFile.writeLine(newLine);
             }
+            System.out.println(i);
 
             tsFile.close();
         } catch (IOException e) {
