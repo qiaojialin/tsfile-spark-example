@@ -17,19 +17,20 @@ object App {
 
     val argument = new ArrayBuffer[String]()
     args.foreach(f => argument += f)
-    if(argument.length != 1) {
-      println("need 1 argument: column_name")
+    if(argument.length != 2) {
+      println("need 2 arguments: file_path, column_name")
       return
     }
 
-    val columnName = argument(0)
+    val path = argument(0)
+    val columnName = argument(1)
 
     val spark = SparkSession
       .builder()
       .config("spark.master", "local")
       .appName("test connector")
       .getOrCreate()
-    val df = spark.read.tsfile("src/main/resources/out.tsfile")
+    val df = spark.read.tsfile(path)
     df.createOrReplaceTempView("tsfile_table")
 
     val select = "select time, " + columnName + " from tsfile_table"
