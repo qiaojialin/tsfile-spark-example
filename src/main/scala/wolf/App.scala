@@ -16,7 +16,6 @@ object App {
   def main(args: Array[String]): Unit = {
 
     val argument = new ArrayBuffer[String]()
-    argument += "a"
     args.foreach(f => argument += f)
     if(argument.length != 1) {
       println("need 1 argument: column_name")
