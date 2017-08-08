@@ -37,13 +37,12 @@ object App {
 
     val newDf = spark.sql(select)
 
-    newDf.show()
     val s = newDf.collect()
     var i = 0
     var count = 0
     var start = ""
     var stop = ""
-    while(i < 100) {
+    while(i < s.length) {
       val fieldType = newDf.schema.fields(1)
 
       val flag = fieldType.dataType match {
